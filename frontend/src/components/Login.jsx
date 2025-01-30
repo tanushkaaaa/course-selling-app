@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import logo from "../../public/logo.png";
 import { Link, useNavigate} from "react-router-dom";
 import axios from "axios";
+import toast from "react-hot-toast";
 
 function Login() {
   const[email,setEmail]=useState("")
@@ -28,7 +29,8 @@ function Login() {
         }
       );
       console.log("Login successful: ", response.data);
-      alert(response.data.message);
+      toast.success(response.data.message);
+      localStorage.setItem("user", JSON.stringify(response.data.token));
       navigate("/");
    
     } catch (error) {

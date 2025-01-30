@@ -10,9 +10,38 @@ import axios from "axios";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import toast from 'react-hot-toast';
 
 function Home() {
     const [courses,setCourses]=useState([])
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+    //token
+    useEffect(() => {
+      const user = localStorage.getItem("user");
+      if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    }, []);
+
+
+    const handleLogout = async () => {
+      try {
+        const response =  axios.get("http://localhost:4002/api/v1/user/logout", {
+          withCredentials: true,
+        });
+        toast.success((await response).data.message);
+        localStorage.removeItem("user");
+        setIsLoggedIn(false);
+      } catch (error) {
+        console.log("Error in logging out ", error);
+        toast.error(error.response.data.errors || "Error in logging out");
+      }
+    };
+
+
     useEffect(()=>{
         const fetchCourses=async()=>{
             try {
@@ -71,15 +100,43 @@ function Home() {
     <div className="bg-gradient-to-r from-black to-blue-950 "> 
       <div className="h-[1250px] md:h-[1050px] text-white container mx-auto">
         {/*Header*/}
-        <header className="flex items-centre justify-between p-6"> 
-            <div className='flex items-center space-x-2'>
-                <img src={logo} alt="" className="w-7 h-7 md:w-10 md:h-10 rounded-full"/>
-                <h1 className="md:text-2xl text-orange-500 font-bold"> CourseHeaven</h1>
-            </div>
-            <div className="space-x-4"> 
-                <Link to={"/login"}  className="bg-transparent text-white text-xs md:text-lg md:py-2 md:px-4 p-2 border border-white rounded"> Login </Link>
-                <Link  to ={"/signup"} className="bg-transparent text-white text-xs md:text-lg md:py-2 md:px-4 p-2 border border-white rounded"> SignUp</Link>
-                </div> </header>
+        <header className="flex items-center justify-between p-6 ">
+          <div className="flex items-center space-x-2">
+            <img
+              src={logo}
+              alt=""
+              className="w-7 h-7 md:w-10 md:h-10 rounded-full"
+            />
+            <h1 className="md:text-2xl text-orange-500 font-bold">
+              CourseHeaven
+            </h1>
+          </div>
+          <div className="space-x-4">
+            {isLoggedIn ? (
+              <button
+                onClick={handleLogout}
+                className="bg-transparent text-white text-xs md:text-lg md:py-2 md:px-4 p-2 border border-white rounded"
+              >
+                Logout
+              </button>
+            ) : (
+              <>
+                <Link
+                  to={"/login"}
+                  className="bg-transparent text-white text-xs md:text-lg md:py-2 md:px-4 p-2 border border-white rounded"
+                >
+                  Login
+                </Link>
+                <Link
+                  to={"/signup"}
+                  className="bg-transparent text-white text-xs md:text-lg md:py-2 md:px-4 p-2 border border-white rounded"
+                >
+                  Signup
+                </Link>
+              </>
+            )}
+          </div>
+        </header>
 
         {/*Main Section*/}
         <section className="text-center py-20">
@@ -91,9 +148,18 @@ function Home() {
             Sharpen your skills with courses crafted by experts.
           </p>
           <div className="space-x-4 mt-8">
-            <button className="bg-green-500 text-white p-2 md:py-3 md:px-6 rounded font-semibold hover:bg-white duration-300 hover:text-black"> Explore Courses</button>
-            <button className="bg-white text-black  p-2 md:py-3 md:px-6 rounded font-semibold hover:bg-green-500 duration-300 hover:text-white"> Course Videos</button>
-          </div>
+          <Link
+              to={"/courses"}
+              className="bg-green-500 text-white p-2 md:py-3 md:px-6 rounded font-semibold hover:bg-white duration-300 hover:text-black"
+            >
+              Explore courses
+            </Link>
+            <Link
+              to={"https://www.youtube.com/learncodingofficial"}
+              className="bg-white text-black  p-2 md:py-3 md:px-6 rounded font-semibold hover:bg-green-500 duration-300 hover:text-white"
+            >
+              Courses Demo videos
+            </Link> </div>
             
         </section>
 
