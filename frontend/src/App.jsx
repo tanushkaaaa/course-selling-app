@@ -18,7 +18,7 @@ function App() {
 
       <Route path="/courses" element={<Courses />} />
       <Route path="/buy/:courseId" element={<Buy />} />
-      <Route path="/signup" element={<Purchases />} />
+      <Route path="/purchases" element={<Purchases />} />
       </Routes>
       <Toaster>
 

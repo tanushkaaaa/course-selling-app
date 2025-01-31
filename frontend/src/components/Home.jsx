@@ -173,8 +173,14 @@ function Home() {
               <div className='bg-gray-900 rounded-lg overflow-hidden'>
                 <img className='h-32 w-full object-contain' src={course?.image?.url} alt="" />
                 <div className='p-6 text-center'>
-                  <h2 className='text-xl font-bold text-white'>{course.title}</h2>
-                  <button className='mt-8 bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 duration-300'>Enroll Now</button>
+                  <h2 className='text-xl font-bold text-white mb-5'>{course.title}</h2>
+                  {/* <button className='mt-8 bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 duration-300'>Enroll Now</button> */}
+                   <Link
+                                           to={`/buy/${course._id}`} // Pass courseId in URL
+                                           className="mt-8 bg-orange-500 text-white py-2 px-4 rounded-full hover:bg-blue-500 duration-300"
+                                         >
+                                           Enroll Now
+                                         </Link>
                 </div>
               </div>
             </div>

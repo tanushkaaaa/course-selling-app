@@ -55,7 +55,9 @@ function Courses() {
                 );
                console.log(response.data.courses);
                setCourses(response.data.courses);
+              setLoading(false);
             } catch (error) {
+              //console.log("error")
                 console.log("error in fetching courses",error)
             }
         };
@@ -70,8 +72,7 @@ function Courses() {
     
           {/* Sidebar */}
           <aside
-            className="w-64 bg-gray-100 h-screen p-5 fixed"
-          >
+            className="w-64 bg-gray-100 h-screen p-5 fixed" >
             <div className="flex items-center mb-10">
               <img src={logo} alt="Profile" className="rounded-full h-12 w-12" />
             </div>
@@ -150,19 +151,20 @@ function Courses() {
                   {courses.map((course) => (
                     <div
                       key={course._id}
-                      className="border border-gray-200 rounded-lg p-4 shadow-sm"
+                      className="border border-gray-200 rounded-lg p-4 shadow-sm "
                     >
                       <img
-                        src={course.image.url}
+                        src={course?.image?.url}
                         alt={course.title}
-                        className="rounded mb-4"
+                        className="rounded mb-4 w-150 h-50 object-cover"
                       />
-                      <h2 className="font-bold text-lg mb-2">{course.title}</h2>
+                      <h2 className="font-bold text-lg mb-2 mt-5">{course.title}</h2>
                       <p className="text-gray-600 mb-4">
                         {course.description.length > 100
                           ? `${course.description.slice(0, 100)}...`
                           : course.description}
                       </p>
+                      <div className=''>
                       <div className="flex justify-between items-center mb-4">
                         <span className="font-bold text-xl">
                           ₹{course.price}{" "}
@@ -174,10 +176,11 @@ function Courses() {
                       {/* Buy page */}
                       <Link
                         to={`/buy/${course._id}`} // Pass courseId in URL
-                        className="bg-orange-500 w-full text-white px-4 py-2 rounded-lg hover:bg-blue-900 duration-300"
+                        className=" bg-orange-500 w-full text-white px-4 py-2 rounded-lg hover:bg-blue-900 duration-300"
                       >
                         Buy Now
                       </Link>
+                    </div>
                     </div>
                   ))}
                 </div>
