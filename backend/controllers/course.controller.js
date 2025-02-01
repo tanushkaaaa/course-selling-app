@@ -130,6 +130,12 @@ export const courseDetails = async (req,res) =>{
     }
 };
 
+import Stripe from "stripe";
+import  config from "../config.js";
+const stripe= new Stripe(config.STRIPE_SECRET_KEY);
+    console.log(config.STRIPE_SECRET_KEY);
+
+
 export const buyCourses = async (req,res) =>{
     const {userId}=req;
     const { courseId } =req.params;
@@ -145,12 +151,40 @@ export const buyCourses = async (req,res) =>{
               .status(400)
               .json({ errors: "User has already purchased this course" });
           }
-          const newPurchase = new Purchase({userId, courseId})
-          await newPurchase.save()
-          res.status(201).json({message:"Course purchased Successfully", newPurchase});
+
+          //stripe
+        //   const customer = await stripe.customers.create({
+        //     name: "John Doe",
+        //     email: "customer@example.com",
+        //    address:"main st."
+        //   });
+          const amount = course.price;
+          const paymentIntent = await stripe.paymentIntents.create({
+            description: 'course purchases',
+            shipping: {
+              name: 'Jenny Rosen',
+              address: {
+                line1: '510 Townsend St',
+                postal_code: '98140',
+                city: 'San Francisco',
+                state: 'CA',
+                country: 'US',
+              },
+            },
+            amount: amount,
+            currency: "usd",
+            payment_method_types: ["card"],
+             description: "Purchase of online course"
+          });
+
+
+        //   const newPurchase = new Purchase({userId, courseId})
+        //   await newPurchase.save();
+          res.status(201).json({message:"Course purchased Successfully",course,
+            clientSecret: paymentIntent.client_secret,
+        });
     } catch (error) {
         res.status(500).json({errors:"Error in course buying"})
-        console.log("error in course buying",error)
-        
+        console.log("Error in course buying",error)  
     }
 };

@@ -5,6 +5,8 @@ import { IoMdSettings } from 'react-icons/io';
 import { IoLogIn, IoLogOut } from 'react-icons/io5';
 import { RiHome2Fill } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
+import logo from "../../public/logo.png";
+import toast from 'react-hot-toast';
 
 function Purchases() {
   const [purchases,setPurchase]=useState([])
@@ -55,8 +57,8 @@ function Purchases() {
               Authorization: `Bearer ${token}`,
             },
             withCredentials: true, 
-          })
-          setPurchase(response.data.courseData)
+          });
+          setPurchase(response?.data?.courseData)
       } catch (error) {
         setErrorMessage("Failed to fetch purchase data");
         }
@@ -67,10 +69,13 @@ function Purchases() {
   ]);
 
   return (
+    
     <div className="flex h-screen">
       {/* Sidebar */}
-      <div
-        className='w-64 bg-gray-100 p-5'>
+      <div className='w-64 bg-gray-100 p-5'>
+      <div className="flex items-center mb-10">
+         <img src={logo} alt="Profile" className="rounded-full h-12 w-12" />
+         </div>        
         <nav>
           <ul className="mt-16 md:mt-0">
             <li className="mb-4">
@@ -89,9 +94,9 @@ function Purchases() {
               </a>
             </li>
             <li className="mb-4">
-              <Link to="/settings" className="flex items-center">
+              {/* <Link to="/settings" className="flex items-center">
                 <IoMdSettings className="mr-2" /> Settings
-              </Link>
+              </Link> */}
             </li>
             <li>
               {isLoggedIn ? (
@@ -158,7 +163,7 @@ function Purchases() {
                         : purchase.description}
                     </p>
                     <span className="text-green-700 font-semibold text-sm">
-                      ${purchase.price} only
+                    ${purchase.price} only
                     </span>
                   </div>
                 </div>
