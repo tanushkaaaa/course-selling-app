@@ -78,7 +78,7 @@ export const updateCourse = async (req, res) => {
     if (!course) {
       return res
         .status(404)
-        .json({ errors: "can't update, created by other admin" });
+        .json({ errors: "Can't update, created by other admin" });
     }
     res.status(201).json({ message: "Course updated successfully", course });
   } catch (error) {
@@ -96,7 +96,7 @@ export const deleteCourse = async (req,res) =>{
                     creatorId:adminId,
                 })
                 if(!course){
-                    return res.status(404).json({errors:"Course not found"})
+                    return res.status(404).json({errors:"Cannot delete,created by other admin"})
                 }
                 res.status(200).json({message:"Course deleted succesfully"})
         }catch(error){
@@ -178,8 +178,8 @@ export const buyCourses = async (req,res) =>{
           });
 
 
-        //   const newPurchase = new Purchase({userId, courseId})
-        //   await newPurchase.save();
+          // const newPurchase = new Purchase({userId, courseId})
+          // await newPurchase.save();
           res.status(201).json({message:"Course purchased Successfully",course,
             clientSecret: paymentIntent.client_secret,
         });

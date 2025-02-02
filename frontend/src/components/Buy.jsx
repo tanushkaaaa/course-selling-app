@@ -118,20 +118,20 @@ function Buy() {
         status: paymentIntent.status,
       };
       console.log("Payment info: ", paymentInfo);
-    //   await axios
-    //     .post(`${BACKEND_URL}/order`, paymentInfo, {
-    //       headers: {
-    //         Authorization: `Bearer ${token}`,
-    //       },
-    //       withCredentials: true,
-    //     })
-    //     .then((response) => {
-    //       console.log(response.data);
-    //     })
-    //     .catch((error) => {
-    //       console.log(error);
-    //       toast.error("Error in making payment");
-    //     });
+      await axios
+        .post("http://localhost:4002/api/v1/order", paymentInfo, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          withCredentials: true,
+        })
+        .then((response) => {
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          toast.error("Error in making payment");
+        });
        toast.success("Payment Successful");
        navigate("/purchases");
      }
@@ -157,7 +157,7 @@ function Buy() {
             <h1 className="text-2xl font-semibold underline mb-4">Order Details</h1>
             <div className="flex justify-between items-center border-b pb-2">
               <h2 className="text-xl text-gray-600">Total Price</h2>
-              <p className="text-red-500 font-bold text-lg">${course.price}</p>
+              <p className="text-red-500 font-bold text-lg">₹{course.price}</p>
             </div>
             <div className="flex justify-between items-center mt-3">
               <h1 className="text-xl text-gray-600 ">Course name</h1>

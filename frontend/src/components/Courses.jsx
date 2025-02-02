@@ -165,7 +165,7 @@ function Courses() {
                       <div className=''>
                       <div className="flex justify-between items-center mb-4">
                         <span className="font-bold text-xl">
-                          ${course.price}{" "}
+                        ₹{course.price}{" "}
                           <span className="text-gray-500 line-through">5999</span>
                         </span>
                         <span className="text-green-600">20% off</span>
